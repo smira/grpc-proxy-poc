@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package machine;
+
+option java_multiple_files = true;
+option java_outer_classname = "MachineApi";
+option java_package = "com.machine.api";
+
+import "google/protobuf/empty.proto";
+
+service Machine { rpc Version(google.protobuf.Empty) returns (VersionReply); }
+
+// Common metadata message nested in all reply message types
+message NodeMetadata { string hostname = 1; }
+
+message VersionResponse {
+  NodeMetadata metadata = 1;
+  VersionInfo version = 2;
+  PlatformInfo platform = 3;
+}
+
+message VersionReply { repeated VersionResponse response = 1; }
+
+message VersionInfo {
+  string tag = 1;
+  string sha = 2;
+  string built = 3;
+  string go_version = 4;
+  string os = 5;
+  string arch = 6;
+}
+
+message PlatformInfo {
+  string name = 1;
+  string mode = 2;
+}
